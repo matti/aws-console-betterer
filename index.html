@@ -1,0 +1,20 @@
+<script>
+
+  const spotInstances = "https://REGION.console.aws.amazon.com/servicequotas/home/services/ec2/quotas/L-34B43A08"
+
+
+  fetch("https://raw.githubusercontent.com/jsonmaur/aws-regions/master/regions.json").then(response =>
+    response.json()
+  ).then(data =>
+    data.forEach(e => {
+      const h2 = document.createElement("h2")
+      h2.textContent = `${e.code} (${e.name})`
+      document.body.appendChild(h2)
+      const spotQuota = spotInstances.replace("REGION", e.code)
+      const a = document.createElement("a")
+      a.href = spotQuota
+      a.text = "spot quota"
+      document.body.appendChild(a)
+    })
+  )
+</script>
