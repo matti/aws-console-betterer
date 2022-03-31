@@ -30,6 +30,10 @@
 
       const links = [
         {
+          text: "ags",
+          url: "https://REGION.console.aws.amazon.com/ec2autoscaling/home?region=REGION#/",
+        },
+        {
           text: "spot quota",
           url: "https://REGION.console.aws.amazon.com/servicequotas/home/services/ec2/quotas/L-34B43A08",
         },
@@ -44,7 +48,7 @@
         const td = document.createElement("td")
         td.appendChild(
           linkify({
-            href: link.url.replace("REGION", e.code),
+            href: link.url.replaceAll("REGION", e.code),
             text: link.text
           })
         )
