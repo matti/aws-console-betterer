@@ -1,7 +1,24 @@
+<style>
+  table,
+  th,
+  td {
+    border: 1px solid black;
+  }
+
+  td {
+    padding: 5px;
+  }
+</style>
+
 <script>
 
-  const spotInstances = "https://REGION.console.aws.amazon.com/servicequotas/home/services/ec2/quotas/L-34B43A08"
+  const linkify = ({ href, text }) => {
+    const a = document.createElement("a")
+    a.href = href
+    a.text = text
 
+    return a
+  }
 
   fetch("https://raw.githubusercontent.com/jsonmaur/aws-regions/master/regions.json").then(response =>
     response.json()
@@ -10,11 +27,34 @@
       const h2 = document.createElement("h2")
       h2.textContent = `${e.code} (${e.name})`
       document.body.appendChild(h2)
-      const spotQuota = spotInstances.replace("REGION", e.code)
-      const a = document.createElement("a")
-      a.href = spotQuota
-      a.text = "spot quota"
-      document.body.appendChild(a)
+
+      const links = [
+        {
+          text: "spot quota",
+          url: "https://REGION.console.aws.amazon.com/servicequotas/home/services/ec2/quotas/L-34B43A08",
+        },
+        {
+          text: "spot requests",
+          url: "https://REGION.console.aws.amazon.com/ec2sp/v2/home?region=REGION#/spot",
+        }
+      ]
+
+      const row = document.createElement("tr")
+      links.forEach(link => {
+        const td = document.createElement("td")
+        td.appendChild(
+          linkify({
+            href: link.url.replace("REGION", e.code),
+            text: link.text
+          })
+        )
+        row.appendChild(td)
+      })
+
+      const table = document.createElement("table")
+      table.appendChild(row)
+      document.body.appendChild(table)
+
     })
   )
 </script>
